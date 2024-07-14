@@ -1,3 +1,5 @@
+'use client'
+
 import { Link } from '@nextui-org/link'
 import {
   NavbarBrand,
@@ -8,6 +10,7 @@ import {
   Navbar as NextUINavbar
 } from '@nextui-org/navbar'
 import NextLink from 'next/link'
+import { useState } from 'react'
 
 import SearchInput from './search-input'
 
@@ -20,8 +23,10 @@ import { siteConfig } from '@/config/site'
 
 export const Navbar = () => {
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar isMenuOpen={isMenuOpen} maxWidth="xl" position="sticky" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="max-w-fit gap-3">
           <NextLink className="flex items-center justify-start gap-1" href="/">
@@ -40,7 +45,7 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarMenu>
-        <SearchInput />
+        <SearchInput closeMenu={() => setIsMenuOpen(false)} />
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>

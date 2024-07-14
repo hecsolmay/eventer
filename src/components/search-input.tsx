@@ -1,17 +1,29 @@
 'use client'
 
 import { Input } from '@nextui-org/input'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { SearchIcon } from '@/components/icons'
 
-export default function SearchInput () {
+interface SearchInputProps {
+  closeMenu: () => void
+}
+
+export default function SearchInput ( { closeMenu }: SearchInputProps ) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const router = useRouter()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const formData  = new FormData(event.currentTarget)
-    const searchTerm = formData.get('search')
+    const cleanSearchTerm = searchTerm.trim()
 
-    alert('Search term: ' + searchTerm)
-    // TODO: Implement search functionality
+    if (cleanSearchTerm === '') {
+      return
+    }
+
+    router.push('/events?q=' + cleanSearchTerm)
+    closeMenu()
   }
 
   return (
@@ -29,6 +41,7 @@ export default function SearchInput () {
           <SearchIcon className='pointer-events-none shrink-0 text-base text-default-400' />
         }
         type='search'
+        onChange={event => setSearchTerm(event.target.value)}
       />
     </form>
   )
