@@ -323,19 +323,21 @@ model auth_users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Events {
-  id                String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String
-  description       String
-  guests            String[]
-  eventDate         DateTime     @map("event_date") @db.Date
-  eventTime         String       @default("12:00 AM") @map("event_time")
-  isFree            Boolean      @default(true) @map("is_free")
-  lat               Float
-  lng               Float
-  state             EVENT_STATE  @default(ACTIVE)
-  assistends_count_ Int          @map("assistends_count:")
-  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  userEvents        UserEvents[]
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  description     String
+  guests          String[]
+  eventDate       DateTime     @map("event_date") @db.Date
+  eventTime       String       @default("12:00 AM") @map("event_time")
+  isFree          Boolean      @default(true) @map("is_free")
+  lat             Float
+  lng             Float
+  state           EVENT_STATE  @default(ACTIVE)
+  assistendsCount Int          @map("assistends_count") @default(0)
+  createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  authorId        String       @default(dbgenerated("gen_random_uuid()")) @map("author_id") @db.Uuid
+  users           Users        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  userEvents      UserEvents[]
 
   @@map("events")
   @@schema("public")
@@ -348,6 +350,7 @@ model Users {
   email        String
   profileImage String?      @map("profile_image")
   createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  events       Events[]
   users        auth_users   @relation(fields: [id], references: [id], onDelete: Cascade)
   userEvents   UserEvents[]
 
