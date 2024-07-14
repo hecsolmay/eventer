@@ -6,6 +6,7 @@ export interface EventsFilterParams {
   page?: number | string
   limit?: number | string
   name?: string
+  eventDate?: Date
 }
 
 export interface EventCreateDTO {
