@@ -1,5 +1,7 @@
 import { EVENT_STATE } from '@prisma/client'
 
+import { EventsService } from '@/services/events'
+
 export interface EventsFilterParams {
   page?: number | string
   limit?: number | string
@@ -21,3 +23,5 @@ export interface EventCreateDTO {
 export interface EventUpdateDTO extends Partial<EventCreateDTO> {
   state: EVENT_STATE
 }
+
+export type EventType  = NonNullable<Awaited<ReturnType<typeof EventsService.getEvent>>>

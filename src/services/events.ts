@@ -12,7 +12,7 @@ import { formatPagination, getPaginationInfo } from '@/utils/pagination'
 import prisma from '@/utils/prisma'
 
 export class EventsService {
-  static async getEvents (query: EventsFilterParams) {
+  static async getEvents (query?: EventsFilterParams) {
     const { page, limit, skip } = formatPagination(query)
     const where = getWhereEventsFilter(query)
     const resultsPromise = prisma.events.findMany({
@@ -32,7 +32,7 @@ export class EventsService {
 
     return {
       events: results,
-      pagination: info
+      info
     }
   }
 
