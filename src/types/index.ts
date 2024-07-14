@@ -5,7 +5,12 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export interface SearchParams {
-  next?: string;
+  next?: string
+  sort?: string
+  date?: string
+  q?: string
+  limit?: string
+  page?: string
 }
 
 export interface Params {}
@@ -13,4 +18,11 @@ export interface Params {}
 export interface ServerPageProps {
   params: Params;
   searchParams: SearchParams;
+}
+
+export type SortFilter = 'created-asc' | 'created-desc' | 'eventdata-asc' | 'eventdata-desc'
+
+export interface SortFilterSelect {
+  value: SortFilter;
+  label: string;
 }
