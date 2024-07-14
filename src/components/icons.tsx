@@ -142,3 +142,39 @@ export const ChromeIcon: React.FC<IconSvgProps> = props => (
     <line x1='10.88' x2='15.46' y1='21.94' y2='14' />
   </svg>
 )
+
+export const ArrowLeftIcon: React.FC<IconSvgProps> = ({ ...props }) => (
+  <svg
+    aria-hidden='true'
+    data-slot='icon'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='1.5'
+    viewBox='0 0 24 24'
+    {...props}
+  >
+    <path
+      d='M15.75 19.5 8.25 12l7.5-7.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+)
+
+export const ArrowRightIcon: React.FC<IconSvgProps> = ({ ...props }) => (
+  <svg
+    aria-hidden='true'
+    data-slot='icon'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='1.5'
+    viewBox='0 0 24 24'
+    {...props}
+  >
+    <path
+      d='m8.25 4.5 7.5 7.5-7.5 7.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    />
+  </svg>
+)
