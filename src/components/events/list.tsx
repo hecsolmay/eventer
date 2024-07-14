@@ -2,17 +2,25 @@ import Pagination from '@/components/pagination'
 import { EventCard } from '@/components/events/card'
 import { cn } from '@/utils/cn'
 import { EventsService } from '@/services/events'
+import { EventsFilterParams } from '@/types/events'
+import { SearchParams } from '@/types'
+import { searchParamsToEventsFilter } from '@/utils/filters/events'
 
 interface ListOfEventsProps extends React.HTMLAttributes<HTMLDivElement> {
-  hidePagination?: boolean
+  hidePagination?: boolean,
+  searchParams?: SearchParams,
 }
 
 export async function ListOfEvents ({
   hidePagination = false,
   className,
+  searchParams,
   ...props
 }: ListOfEventsProps) {
-  const { events, info } = await EventsService.getEvents()
+
+  const params: EventsFilterParams = searchParamsToEventsFilter(searchParams)
+
+  const { events, info } = await EventsService.getEvents(params)
 
   return (
     <>
