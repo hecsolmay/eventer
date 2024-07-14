@@ -20,10 +20,10 @@ export default function Hero () {
               <Button
                 as={Link}
                 color='default'
-                href='/my-events?action=create'
+                href='/my-events'
                 variant='bordered'
               >
-                Crear tu evento
+                Crea tus eventos
               </Button>
               <Button as={Link} color='secondary' href='/events'>
                 Explora los eventos
