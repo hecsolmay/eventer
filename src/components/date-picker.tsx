@@ -13,9 +13,13 @@ import {
 
 export default function DateFilter () {
   const { createQueryString, router, searchParams, pathname } = useQuery()
-  const [value, setValue] = useState<DateValue>(
-    getParsedDateValue(searchParams.get('date') ?? undefined)
-  )
+  const [value, setValue] = useState<DateValue | null>(() => {
+    const date = searchParams.get('date')
+
+    if (date === null) return null
+
+    return getParsedDateValue(date)
+  })
 
   const handleChange = (date: DateValue) => {
     setValue(date)
