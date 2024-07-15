@@ -15,6 +15,10 @@ export interface SearchParams {
   status?: string
 }
 
+export interface SearchParamsPrivate extends SearchParams {
+  authorId?: string
+}
+
 export interface Params {
   id: string;
 }

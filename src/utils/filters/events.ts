@@ -5,7 +5,7 @@ import { DateValueToDate, getParsedDateValue } from '../time'
 import { getSortFilter, getStatusFilter } from '.'
 
 import { EventsFilterParams } from '@/types/events'
-import { SearchParams } from '@/types'
+import { SearchParams, SearchParamsPrivate } from '@/types'
 
 export function getWhereEventsFilter (
   query?: EventsFilterParams
@@ -24,6 +24,10 @@ export function getWhereEventsFilter (
 
   if (query?.status !== undefined) {
     where.state = { equals: query.status }
+  }
+
+  if (query?.authorId !== undefined) {
+    where.authorId = { equals: query.authorId }
   }
 
   return where
@@ -91,6 +95,18 @@ export function searchParamsToEventsFilter (
 
   if (searchParams.sort !== undefined) {
     params.sort = getSortFilter(searchParams.sort)
+  }
+
+  return params
+}
+
+export function searchParamsPrivateToEventsFilter (
+  searchParams?: SearchParamsPrivate
+): EventsFilterParams {
+  const params = searchParamsToEventsFilter(searchParams)
+
+  if (searchParams?.authorId !== undefined) {
+    params.authorId = searchParams.authorId
   }
 
   return params

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scroll-small {
+  scrollbar-width: thin;
+  scrollbar-color: #a9a9a98a #d6d6d600;
+}
+
+textarea {
+  scrollbar-width: thin;
+  scrollbar-color: #a9a9a98a #d6d6d600;
+}

@@ -48,7 +48,7 @@ export function DateInputWithHours () {
   const [value, setValue] = useState<DateValue>(getNowDateValue())
 
   return (
-    <div className='flex w-full max-w-[284px] flex-row gap-4'>
+    <div className='flex w-full flex-row gap-4'>
       <DatePicker
         hideTimeZone
         showMonthAndYearPickers
