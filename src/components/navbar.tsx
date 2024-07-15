@@ -25,6 +25,8 @@ export const Navbar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const closeMenu = () => setIsMenuOpen(false)
+
   return (
     <NextUINavbar isMenuOpen={isMenuOpen} maxWidth="xl" position="sticky" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -45,10 +47,10 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarMenu>
-        <SearchInput closeMenu={() => setIsMenuOpen(false)} />
+        <SearchInput closeMenu={closeMenu} />
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
+            <NavbarMenuItem key={`${item}-${index}`} onClick={closeMenu}>
               <Link
                 color='foreground'
                 href={item.href}
