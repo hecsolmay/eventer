@@ -12,7 +12,9 @@ export default function EventsPage ({ searchParams }: ServerPageProps) {
         Encuentra los eventos que te interesan
       </h2>
 
-      <EventFilters />
+      <Suspense fallback={null}>
+        <EventFilters />
+      </Suspense>
 
       <Suspense fallback={<SectionLoader />}>
         <ListOfEvents className='mt-6' searchParams={searchParams} />
