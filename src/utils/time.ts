@@ -11,6 +11,16 @@ export function formatEventDate (date: Date) {
   return dateString
 }
 
+export function formatEventTime (date: Date) {
+  const dateString = date.toLocaleTimeString('es-MX', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  })
+
+  return dateString
+}
+
 export function getParsedDateValue (date?: string | undefined | Date): DateValue {
   try {
     if (date instanceof Date) {

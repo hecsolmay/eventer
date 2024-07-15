@@ -15,7 +15,9 @@ export interface SearchParams {
   status?: string
 }
 
-export interface Params {}
+export interface Params {
+  id: string;
+}
 
 export interface ServerPageProps {
   params: Params;
