@@ -33,3 +33,15 @@ export async function loginWithGoogle (redirectTo?: string) {
     console.error(error)
   }
 }
+
+export async function logout () {
+  const supabase = createClient()
+  const { error } = await supabase.auth.signOut()
+
+  if (error !== null) {
+    // eslint-disable-next-line no-console
+    console.error(error)
+  }
+
+  redirect('/login')
+}
