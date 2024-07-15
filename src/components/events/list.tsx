@@ -1,11 +1,12 @@
 import Link from 'next/link'
 
-import Pagination from '@/components/pagination'
 import { EventCard } from '@/components/events/card'
-import { cn } from '@/utils/cn'
+import { EmptyListOfEvents } from '@/components/fallbacks/events'
+import Pagination from '@/components/pagination'
 import { EventsService } from '@/services/events'
-import { EventsFilterParams } from '@/types/events'
 import { SearchParams } from '@/types'
+import { EventsFilterParams } from '@/types/events'
+import { cn } from '@/utils/cn'
 import { searchParamsToEventsFilter } from '@/utils/filters/events'
 
 interface ListOfEventsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,6 +23,10 @@ export async function ListOfEvents ({
   const params: EventsFilterParams = searchParamsToEventsFilter(searchParams)
 
   const { events, info } = await EventsService.getEvents(params)
+
+  if (events.length === 0) {
+    return <EmptyListOfEvents />
+  }
 
   return (
     <>
