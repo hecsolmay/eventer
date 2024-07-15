@@ -1,3 +1,4 @@
+import { EVENT_STATE } from '@prisma/client'
 import { SVGProps } from 'react'
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -24,5 +25,10 @@ export type SortFilter = 'created-asc' | 'created-desc' | 'eventdata-asc' | 'eve
 
 export interface SortFilterSelect {
   value: SortFilter;
+  label: string;
+}
+
+export interface StatusFilterSelect {
+  value: EVENT_STATE
   label: string;
 }
