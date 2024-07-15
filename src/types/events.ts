@@ -16,7 +16,7 @@ export interface EventsFilterParams {
 export interface EventCreateDTO {
   name: string
   description: string
-  gests: string[]
+  guests: string[]
   eventDate: Date
   eventTime: string
   isFree: boolean

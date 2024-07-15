@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { ThemeProviderProps } from 'next-themes/dist/types'
 import './index.css'
+import { Toaster } from 'sonner'
 
 export interface ProvidersProps {
   children: React.ReactNode
@@ -17,6 +18,13 @@ export function Providers ({ children, themeProps }: ProvidersProps) {
 
   return (
     <NextUIProvider navigate={router.push}>
+      <Toaster
+        closeButton
+        expand
+        richColors
+        position='bottom-right'
+        visibleToasts={2}
+      />
       <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
     </NextUIProvider>
   )

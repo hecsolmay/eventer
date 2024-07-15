@@ -13,6 +13,7 @@
 		"generate": "prisma generate"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "3.9.0",
 		"@internationalized/date": "^3.5.4",
 		"@nextui-org/button": "2.0.34",
 		"@nextui-org/code": "2.0.29",
@@ -41,7 +42,9 @@
 		"next-themes": "^0.2.1",
 		"react": "18.3.1",
 		"react-dom": "18.3.1",
+		"react-hook-form": "7.52.1",
 		"react-leaflet": "^4.2.1",
+		"sonner": "1.5.0",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {

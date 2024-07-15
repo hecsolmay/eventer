@@ -7,7 +7,6 @@ import { useState } from 'react'
 import useQuery from '@/hooks/useQuery'
 import {
   DateValueToDate,
-  getNowDateValue,
   getParsedDateValue
 } from '@/utils/time'
 
@@ -44,8 +43,12 @@ export default function DateFilter () {
   )
 }
 
-export function DateInputWithHours () {
-  const [value, setValue] = useState<DateValue>(getNowDateValue())
+interface DateInputWithHoursProps {
+  onChange: (date: DateValue) => void
+  value: DateValue
+}
+
+export function DateInputWithHours ( { onChange, value }: DateInputWithHoursProps ) {
 
   return (
     <div className='flex w-full flex-row gap-4'>
@@ -57,7 +60,7 @@ export function DateInputWithHours () {
         label='Selecciona una fecha para el evento'
         value={value}
         variant='bordered'
-        onChange={setValue}
+        onChange={onChange}
       />
     </div>
   )
