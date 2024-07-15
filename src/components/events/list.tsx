@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import Pagination from '@/components/pagination'
 import { EventCard } from '@/components/events/card'
 import { cn } from '@/utils/cn'
@@ -7,8 +9,8 @@ import { SearchParams } from '@/types'
 import { searchParamsToEventsFilter } from '@/utils/filters/events'
 
 interface ListOfEventsProps extends React.HTMLAttributes<HTMLDivElement> {
-  hidePagination?: boolean,
-  searchParams?: SearchParams,
+  hidePagination?: boolean
+  searchParams?: SearchParams
 }
 
 export async function ListOfEvents ({
@@ -17,7 +19,6 @@ export async function ListOfEvents ({
   searchParams,
   ...props
 }: ListOfEventsProps) {
-
   const params: EventsFilterParams = searchParamsToEventsFilter(searchParams)
 
   const { events, info } = await EventsService.getEvents(params)
@@ -32,7 +33,9 @@ export async function ListOfEvents ({
         )}
       >
         {events.map(event => (
-          <EventCard key={event.id} event={event} />
+          <Link key={event.id} href={`/events/${event.id}`}>
+            <EventCard event={event} />
+          </Link>
         ))}
       </div>
       {!hidePagination && <Pagination info={info} />}
