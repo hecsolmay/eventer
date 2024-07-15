@@ -1,4 +1,7 @@
 import { Button } from '@nextui-org/button'
+import { Suspense } from 'react'
+
+import { RegisterEventButton } from './buttons-server'
 
 import { StatusBadge } from '@/components/events/state-badge'
 import { EventType } from '@/types/events'
@@ -68,9 +71,10 @@ export default function EventDetail ({ event }: EventDetailProps) {
             </div>
           </DetailSection>
 
-          <Button className='w-full sm:w-auto' color='secondary'>
-            Registrarse como Asistente
-          </Button>
+          <Suspense fallback={<ButtonFallback />}>
+            <RegisterEventButton eventId={event.id} />
+          </Suspense>
+
         </div>
         <div className='space-y-6'>
           <h2 className='text-2xl font-bold'>Lista de Invitados</h2>
@@ -93,6 +97,14 @@ export default function EventDetail ({ event }: EventDetailProps) {
         </div>
       </div>
     </div>
+  )
+}
+
+function ButtonFallback () {
+  return (
+    <Button isLoading className='w-full sm:w-auto' color='secondary'>
+      Cargando...
+    </Button>
   )
 }
 
