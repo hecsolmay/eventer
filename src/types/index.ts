@@ -12,6 +12,7 @@ export interface SearchParams {
   q?: string
   limit?: string
   page?: string
+  status?: string
 }
 
 export interface Params {}

@@ -2,10 +2,14 @@ import { Prisma } from '@prisma/client'
 
 import { DateValueToDate, getParsedDateValue } from '../time'
 
+import { getSortFilter, getStatusFilter } from '.'
+
 import { EventsFilterParams } from '@/types/events'
 import { SearchParams } from '@/types'
 
-export function getWhereEventsFilter (query?: EventsFilterParams): Prisma.EventsWhereInput {
+export function getWhereEventsFilter (
+  query?: EventsFilterParams
+): Prisma.EventsWhereInput {
   const where: Prisma.EventsWhereInput = {}
 
   if (query?.name !== undefined) {
@@ -18,10 +22,44 @@ export function getWhereEventsFilter (query?: EventsFilterParams): Prisma.Events
     }
   }
 
+  if (query?.status !== undefined) {
+    where.state = { equals: query.status }
+  }
+
   return where
 }
 
-export function searchParamsToEventsFilter (searchParams?: SearchParams): EventsFilterParams {
+export function getOrderByEventsFilter (
+  params?: EventsFilterParams
+): Prisma.EventsOrderByWithRelationInput {
+  const orderBy: Prisma.EventsOrderByWithRelationInput | undefined = {}
+
+  if (params?.sort !== undefined) {
+    const sort = params.sort
+
+    if (sort === 'created-asc') {
+      orderBy.createdAt = 'asc'
+    }
+
+    if (sort === 'created-desc') {
+      orderBy.createdAt = 'desc'
+    }
+
+    if (sort === 'eventdata-asc') {
+      orderBy.eventDate = 'asc'
+    }
+
+    if (sort === 'eventdata-desc') {
+      orderBy.eventDate = 'desc'
+    }
+
+  }
+
+  return orderBy
+}
+export function searchParamsToEventsFilter (
+  searchParams?: SearchParams
+): EventsFilterParams {
   const params: EventsFilterParams = {}
 
   if (searchParams === undefined) {
@@ -45,6 +83,14 @@ export function searchParamsToEventsFilter (searchParams?: SearchParams): Events
 
   if (searchParams.page !== undefined) {
     params.page = searchParams.page
+  }
+
+  if (searchParams.status !== undefined) {
+    params.status = getStatusFilter(searchParams.status)
+  }
+
+  if (searchParams.sort !== undefined) {
+    params.sort = getSortFilter(searchParams.sort)
   }
 
   return params
