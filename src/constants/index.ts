@@ -13,3 +13,7 @@ export const STATUS_FILTERS: StatusFilterSelect[] = [
   { value: 'CANCELED', label: 'Cancelados' },
   { value: 'CONCLUSED', label: 'Concluidos' }
 ]
+
+export const DEFAULT_LAT = 20.965943004395623
+export const DEFAULT_LNG = -89.60612297058107
+export const DEFAULT_ZOOM = 20

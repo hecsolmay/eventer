@@ -2,8 +2,8 @@ import { EVENT_STATE } from '@prisma/client'
 import { SVGProps } from 'react'
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-};
+  size?: number
+}
 
 export interface SearchParams {
   next?: string
@@ -20,22 +20,31 @@ export interface SearchParamsPrivate extends SearchParams {
 }
 
 export interface Params {
-  id: string;
+  id: string
 }
 
 export interface ServerPageProps {
-  params: Params;
-  searchParams: SearchParams;
+  params: Params
+  searchParams: SearchParams
 }
 
-export type SortFilter = 'created-asc' | 'created-desc' | 'eventdata-asc' | 'eventdata-desc'
+export type SortFilter =
+  | 'created-asc'
+  | 'created-desc'
+  | 'eventdata-asc'
+  | 'eventdata-desc'
 
 export interface SortFilterSelect {
-  value: SortFilter;
-  label: string;
+  value: SortFilter
+  label: string
 }
 
 export interface StatusFilterSelect {
   value: EVENT_STATE
-  label: string;
+  label: string
+}
+
+export interface Cords {
+  lat: number
+  lng: number
 }

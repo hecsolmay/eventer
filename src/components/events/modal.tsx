@@ -15,6 +15,9 @@ import { useState } from 'react'
 
 import { DateInputWithHours } from '@/components/date-picker'
 import InputGuests from '@/components/input-guests'
+import { LeafletMap } from '@/components/map'
+import { Cords } from '@/types'
+import { DEFAULT_LAT, DEFAULT_LNG } from '@/constants'
 
 interface ModalProps {
   isOpen?: boolean
@@ -23,20 +26,37 @@ interface ModalProps {
 
 interface CommonEventModalProps extends ModalProps {
   action?: 'CREATE' | 'EDIT'
+  defaultValues?: {
+    lat: number
+    lng: number
+  }
 }
 
 function CommonEventModal ({
   isOpen = false,
   onOpenChange = () => {},
-  action = 'CREATE'
+  action = 'CREATE',
+  defaultValues = { lat: DEFAULT_LAT, lng: DEFAULT_LNG }
 }: CommonEventModalProps) {
   const [guests, setGuests] = useState<string[]>([])
+  const [markerPosition, setMarkerPosition] = useState<Cords>({
+    lat: defaultValues.lat,
+    lng: defaultValues.lng
+  })
+
+  if (!isOpen) return null
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    reset()
     onOpenChange(false)
   }
 
   const isCreate = action === 'CREATE'
+
+  const reset = () => {
+    setGuests([])
+  }
 
   return (
     <Modal
@@ -64,13 +84,17 @@ function CommonEventModal ({
                   variant='bordered'
                 />
 
-                {/* TODO: ADD GUESTS INPUT */}
-
                 <InputGuests guests={guests} setGuests={setGuests} />
 
                 <DateInputWithHours />
 
                 {/* TODO: ADD LOCATION INPUT */}
+
+                <LeafletMap
+                  changeMarkerPosition={setMarkerPosition}
+                  lat={markerPosition.lat}
+                  lng={markerPosition.lng}
+                />
 
                 <Checkbox defaultSelected>gratuito</Checkbox>
               </ModalBody>
@@ -79,7 +103,10 @@ function CommonEventModal ({
                   color='danger'
                   type='button'
                   variant='flat'
-                  onPress={onClose}
+                  onPress={() => {
+                    reset()
+                    onClose()
+                  }}
                 >
                   Cerrar
                 </Button>

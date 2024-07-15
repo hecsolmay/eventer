@@ -13,6 +13,12 @@ export const createEventSchema = z.object({
   authorId: z.string()
 })
 
+export const createEventFormSchema = z.object({
+  name: z.string().trim().min(1).max(255),
+  description: z.string().trim().min(1).max(255),
+  isFree: z.boolean()
+})
+
 export const updateEventSchema = z.object({
   name: z.string().trim().min(1).max(255).optional(),
   description: z.string().trim().min(1).max(255).optional(),

@@ -11,3 +11,9 @@ textarea {
   scrollbar-width: thin;
   scrollbar-color: #a9a9a98a #d6d6d600;
 }
+
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+}
