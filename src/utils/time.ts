@@ -1,4 +1,10 @@
-import { DateValue, getLocalTimeZone, now, parseDate } from '@internationalized/date'
+import {
+  DateValue,
+  getLocalTimeZone,
+  now,
+  parseDate,
+  ZonedDateTime
+} from '@internationalized/date'
 
 export function formatEventDate (date: Date) {
   const dateString = date.toLocaleDateString('es-MX', {
@@ -21,7 +27,9 @@ export function formatEventTime (date: Date) {
   return dateString
 }
 
-export function getParsedDateValue (date?: string | undefined | Date): DateValue {
+export function getParsedDateValue (
+  date?: string | undefined | Date
+): DateValue {
   try {
     if (date instanceof Date) {
       return parseDate(date.toISOString().split('T')[0])
@@ -33,10 +41,36 @@ export function getParsedDateValue (date?: string | undefined | Date): DateValue
   }
 }
 
+export function parseDateToDateValue (date: Date): ZonedDateTime {
+  const timeZone = getLocalTimeZone()
+  const offsetInMinutes = date.getTimezoneOffset()
+  const offsetInMilliseconds = -offsetInMinutes * 60 * 1000
+
+  console.log(date.toISOString())
+
+  const zoneTime = new ZonedDateTime(
+    date.getFullYear(),
+    date.getMonth() + 1, // Los meses en JavaScript son 0-indexados
+    date.getDate(),
+    timeZone,
+    offsetInMilliseconds,
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  )
+
+  console.log(zoneTime)
+
+  return zoneTime
+}
+
 export function DateValueToDate (date: DateValue): Date {
   return date.toDate(getLocalTimeZone())
 }
 
 export function getNowDateValue (): DateValue {
+  console.log(now(getLocalTimeZone()))
+
   return now(getLocalTimeZone())
 }

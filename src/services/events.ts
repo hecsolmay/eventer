@@ -1,3 +1,5 @@
+import { PlaceInfoService } from './place-info'
+
 import { createEventSchema, updateEventSchema } from '@/schemas/events'
 import {
   EventCreateDTO,
@@ -57,25 +59,61 @@ export class EventsService {
       throw new SchemaValidationError(result.error.toString())
     }
 
+    const placeInfo = await PlaceInfoService.getPlaceInfo({
+      lat: event.lat,
+      lng: event.lng
+    })
+
+    const newEventData = {
+      ...result.data,
+      localization: placeInfo.display_name
+    }
+
     const newEvent = await prisma.events.create({
-      data: result.data
+      data: newEventData
     })
 
     return newEvent
   }
 
   static async updateEvent (id: string, event: EventUpdateDTO) {
+    let localization: string | undefined = undefined
+    const existedEvent = await prisma.events.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (existedEvent === null) {
+      return null
+    }
+
     const result = updateEventSchema.safeParse(event)
 
     if (!result.success) {
       throw new SchemaValidationError(result.error.toString())
     }
 
+    const isEmptyLocalization = event.lat === undefined || event.lng === undefined
+    const isSamePlace = event.lat === existedEvent.lat && event.lng === existedEvent.lng
+
+    if (!isEmptyLocalization && !isSamePlace) {
+      const placeInfo = await PlaceInfoService.getPlaceInfo({
+        lat: event?.lat ?? existedEvent.lat,
+        lng: event?.lng ?? existedEvent.lng
+      })
+
+      localization = placeInfo.display_name
+    }
+
     const updatedEvent = await prisma.events.update({
       where: {
         id: id
       },
-      data: result.data
+      data: {
+        ...result.data,
+        localization
+      }
     })
 
     return updatedEvent

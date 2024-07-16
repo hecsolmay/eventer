@@ -16,15 +16,12 @@ export default function EventDetail ({ event }: EventDetailProps) {
     name,
     description,
     eventDate,
-    lat,
-    lng,
     isFree,
     assistantsCount,
     guests,
-    state
+    state,
+    localization
   } = event
-
-  const localization = `${lat}, ${lng}`
 
   return (
     <div className='mx-auto max-w-6xl px-4 pb-8 pt-4 sm:px-6 lg:px-8'>
@@ -74,7 +71,6 @@ export default function EventDetail ({ event }: EventDetailProps) {
           <Suspense fallback={<ButtonFallback />}>
             <RegisterEventButton eventId={event.id} />
           </Suspense>
-
         </div>
         <div className='space-y-6'>
           <h2 className='text-2xl font-bold'>Lista de Invitados</h2>

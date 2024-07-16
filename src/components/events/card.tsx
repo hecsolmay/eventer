@@ -80,9 +80,7 @@ interface EventCardProps {
 }
 
 export function EventCard ({ event }: EventCardProps) {
-  const { name, description, eventDate, lat, lng } = event
-
-  const localization = `${lat}, ${lng}`
+  const { name, description, eventDate,  localization } = event
 
   return (
     <Card>
@@ -102,9 +100,7 @@ export function EventCard ({ event }: EventCardProps) {
 }
 
 export function EventUserCard ({ event }: EventCardProps) {
-  const { name, description, eventDate, lat, lng } = event
-
-  const localization = `${lat}, ${lng}`
+  const { name, description, eventDate, localization } = event
 
   return (
     <Card>

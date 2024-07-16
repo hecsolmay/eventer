@@ -32,7 +32,7 @@ import { EventType } from '@/types/events'
 import {
   DateValueToDate,
   getNowDateValue,
-  getParsedDateValue
+  parseDateToDateValue
 } from '@/utils/time'
 
 interface ModalProps {
@@ -151,7 +151,7 @@ function CommonEventModal ({
         : 'Evento actualizado exitosamente'
 
       toast.success(successMessage)
-      reset()
+      isCreate && reset()
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -284,7 +284,7 @@ export function EditEventModal ({
       action='EDIT'
       defaultValues={{
         description: event.description,
-        eventDate: getParsedDateValue(event.eventDate),
+        eventDate: parseDateToDateValue(event.eventDate),
         guests: event.guests,
         isFree: event.isFree,
         lat: event.lat,
