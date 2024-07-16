@@ -2,20 +2,24 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 import { updateSession } from '@/utils/supabase/middleware'
 
+const PUBLIC_PAGES = ['/auth', '/login', '/api']
+
 export async function middleware (request: NextRequest) {
   const { nextUrl } = request
 
-  const {response, user } = await updateSession(request)
+  const { response, user } = await updateSession(request)
 
   // CHECK IF THE URL IS LOGIN
-  if (nextUrl.pathname.startsWith('/auth') || nextUrl.pathname.startsWith('/login')) {
+  if (PUBLIC_PAGES.some(page => nextUrl.pathname.startsWith(page))) {
     return response
   }
 
   if (user === null) {
     const pathname = nextUrl.pathname ?? '/'
 
-    return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(pathname)}`, request.url))
+    return NextResponse.redirect(
+      new URL(`/login?next=${encodeURIComponent(pathname)}`, request.url)
+    )
   }
 
   return response
