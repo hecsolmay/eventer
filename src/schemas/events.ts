@@ -15,8 +15,16 @@ export const createEventSchema = z.object({
 export type CreateEventSchema = z.infer<typeof createEventSchema>
 
 export const createEventFormSchema = z.object({
-  name: z.string().trim().min(1, 'El nombre debe tener al menos 1 carácter').max(255, 'El nombre no puede tener más de 255 caracteres'),
-  description: z.string().trim().min(1, 'La descripción debe tener al menos 1 carácter').max(255, 'La descripción no puede tener más de 255 caracteres'),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'El nombre debe tener al menos 1 carácter')
+    .max(255, 'El nombre no puede tener más de 255 caracteres'),
+  description: z
+    .string()
+    .trim()
+    .min(1, 'La descripción debe tener al menos 1 carácter')
+    .max(255, 'La descripción no puede tener más de 255 caracteres'),
   isFree: z.boolean()
 })
 
@@ -25,7 +33,7 @@ export type CreateEventFormSchema = z.infer<typeof createEventFormSchema>
 export const updateEventSchema = z.object({
   name: z.string().trim().min(1).max(255).optional(),
   description: z.string().trim().min(1).max(255).optional(),
-  guests: z.array(z.string()).min(1).max(255).optional(),
+  guests: z.array(z.string().min(1).max(255)).optional(),
   eventDate: z.date().optional(),
   isFree: z.boolean().optional(),
   lat: z.number().optional(),
@@ -33,3 +41,5 @@ export const updateEventSchema = z.object({
   authorId: z.string().optional(),
   state: z.nativeEnum(EVENT_STATE).optional()
 })
+
+export type UpdateEventSchema = z.infer<typeof updateEventSchema>

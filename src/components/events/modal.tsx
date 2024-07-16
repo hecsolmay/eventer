@@ -1,5 +1,7 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { DateValue } from '@internationalized/date'
 import {
   Button,
   ButtonProps,
@@ -12,39 +14,65 @@ import {
   ModalHeader,
   Textarea
 } from '@nextui-org/react'
+import { EVENT_STATE } from '@prisma/client'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { DateValue } from '@internationalized/date'
 import { toast } from 'sonner'
 
+import SelectStatus from '../select-status'
+
+import { createEvent, updateEventById } from '@/actions/events'
 import { DateInputWithHours } from '@/components/date-picker'
 import InputGuests from '@/components/input-guests'
 import { LeafletMap } from '@/components/map'
-import { Cords } from '@/types'
 import { DEFAULT_LAT, DEFAULT_LNG } from '@/constants'
 import { createEventFormSchema, CreateEventFormSchema } from '@/schemas/events'
-import { DateValueToDate, getNowDateValue } from '@/utils/time'
-import { createEvent } from '@/actions/events'
+import { Cords } from '@/types'
+import { EventType } from '@/types/events'
+import {
+  DateValueToDate,
+  getNowDateValue,
+  getParsedDateValue
+} from '@/utils/time'
 
 interface ModalProps {
   isOpen?: boolean
   onOpenChange?: (isOpen: boolean) => void | undefined
 }
 
+interface DefaultValues {
+  lat: number
+  lng: number
+  eventDate: DateValue
+  state: EVENT_STATE
+  name: string
+  description: string
+  isFree: boolean
+  guests: string[]
+  eventId?: string
+}
+
+const INITIAL_DEFAULT_VALUES: DefaultValues = {
+  lat: DEFAULT_LAT,
+  lng: DEFAULT_LNG,
+  eventDate: getNowDateValue(),
+  state: 'ACTIVE',
+  name: '',
+  description: '',
+  isFree: false,
+  guests: []
+}
+
 interface CommonEventModalProps extends ModalProps {
   action?: 'CREATE' | 'EDIT'
-  defaultValues?: {
-    lat: number
-    lng: number
-  }
+  defaultValues?: DefaultValues
 }
 
 function CommonEventModal ({
   isOpen = false,
   onOpenChange = () => {},
   action = 'CREATE',
-  defaultValues = { lat: DEFAULT_LAT, lng: DEFAULT_LNG }
+  defaultValues = INITIAL_DEFAULT_VALUES
 }: CommonEventModalProps) {
   const [guests, setGuests] = useState<string[]>([])
   const [markerPosition, setMarkerPosition] = useState<Cords>({
@@ -52,8 +80,11 @@ function CommonEventModal ({
     lng: defaultValues.lng
   })
 
-  const [dateValue, setDateValue] = useState<DateValue>(getNowDateValue())
+  const [dateValue, setDateValue] = useState<DateValue>(defaultValues.eventDate)
   const [isSending, setIsSending] = useState(false)
+  const [selectedStatus, setSelectedStatus] = useState<EVENT_STATE>(
+    defaultValues.state
+  )
 
   const {
     handleSubmit,
@@ -62,38 +93,73 @@ function CommonEventModal ({
     formState: { errors, isSubmitting }
   } = useForm<CreateEventFormSchema>({
     defaultValues: {
-      name: '',
-      description: '',
-      isFree: false
+      name: defaultValues.name,
+      description: defaultValues.description,
+      isFree: defaultValues.isFree
     },
     resolver: zodResolver(createEventFormSchema)
   })
 
   if (!isOpen) return null
 
+  const createNewEvent = async (data: CreateEventFormSchema) => {
+    const newEvent = {
+      ...data,
+      eventDate: DateValueToDate(dateValue),
+      guests,
+      lat: markerPosition.lat,
+      lng: markerPosition.lng
+    }
+
+    const result = await createEvent(newEvent)
+
+    if (!result.success) {
+      throw new Error(result.error)
+    }
+  }
+
+  const updateEvent = async (eventId: string, data: CreateEventFormSchema) => {
+    const updateEvent = {
+      ...data,
+      eventDate: DateValueToDate(dateValue),
+      guests,
+      lat: markerPosition.lat,
+      lng: markerPosition.lng,
+      state: selectedStatus
+    }
+
+    const result = await updateEventById(eventId, updateEvent)
+
+    if (!result.success) {
+      throw new Error(result.error)
+    }
+  }
   const onSubmit = async (data: CreateEventFormSchema) => {
     setIsSending(true)
     try {
-      const newEvent = {
-        ...data,
-        eventDate: DateValueToDate(dateValue),
-        guests,
-        lat: markerPosition.lat,
-        lng: markerPosition.lng
+      if (isCreate) {
+        await createNewEvent(data)
+      } else {
+        // TODO: GET EVENT ID
+        const eventId = defaultValues.eventId!
+
+        await updateEvent(eventId, data)
       }
 
-      const result = await createEvent(newEvent)
+      const successMessage = isCreate
+        ? 'Evento creado exitosamente'
+        : 'Evento actualizado exitosamente'
 
-      if (!result.success) {
-        throw new Error(result.error)
-      }
-
-      toast.success('Evento creado exitosamente')
+      toast.success(successMessage)
       reset()
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error)
-      toast.error('Algo salió mal al crear el evento')
+      const errorMessage = isCreate
+        ? 'Algo salió mal al crear el evento'
+        : 'Algo salió mal al actualizar el evento'
+
+      toast.error(errorMessage)
     } finally {
       setIsSending(false)
     }
@@ -142,7 +208,12 @@ function CommonEventModal ({
 
                 <DateInputWithHours value={dateValue} onChange={setDateValue} />
 
-                {/* TODO: ADD LOCATION INPUT */}
+                {!isCreate && (
+                  <SelectStatus
+                    value={selectedStatus}
+                    onChange={setSelectedStatus}
+                  />
+                )}
 
                 <LeafletMap
                   changeMarkerPosition={setMarkerPosition}
@@ -191,6 +262,37 @@ export function CreateEventModal ({
   return (
     <CommonEventModal
       action='CREATE'
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    />
+  )
+}
+
+interface EditEventModalProps extends ModalProps {
+  event: EventType
+}
+
+export function EditEventModal ({
+  isOpen = false,
+  onOpenChange = () => {},
+  event
+}: EditEventModalProps) {
+  if (!isOpen) return null
+
+  return (
+    <CommonEventModal
+      action='EDIT'
+      defaultValues={{
+        description: event.description,
+        eventDate: getParsedDateValue(event.eventDate),
+        guests: event.guests,
+        isFree: event.isFree,
+        lat: event.lat,
+        lng: event.lng,
+        name: event.name,
+        state: event.state,
+        eventId: event.id
+      }}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
     />

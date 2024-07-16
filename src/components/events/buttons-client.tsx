@@ -10,7 +10,11 @@ import {
   deleteUserFromEvent,
   registerUserToEvent
 } from '@/actions/events'
-import { AlertModal, CreateEventModal } from '@/components/events/modal'
+import {
+  AlertModal,
+  CreateEventModal,
+  EditEventModal
+} from '@/components/events/modal'
 import { PencilIcon, TrashIcon } from '@/components/icons'
 import { EventType } from '@/types/events'
 
@@ -78,10 +82,24 @@ interface EditEventButtonProps {
 }
 
 export function EditEventButton ({ event }: EditEventButtonProps) {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+
   return (
-    <Button isIconOnly color='warning' title={`Editar ${event.name}`}>
-      <PencilIcon className='size-6 text-white' />
-    </Button>
+    <>
+      <EditEventModal
+        event={event}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+      <Button
+        isIconOnly
+        color='warning'
+        title={`Editar ${event.name}`}
+        onPress={onOpen}
+      >
+        <PencilIcon className='size-6 text-white' />
+      </Button>
+    </>
   )
 }
 
