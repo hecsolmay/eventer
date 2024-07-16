@@ -46,8 +46,6 @@ export function parseDateToDateValue (date: Date): ZonedDateTime {
   const offsetInMinutes = date.getTimezoneOffset()
   const offsetInMilliseconds = -offsetInMinutes * 60 * 1000
 
-  console.log(date.toISOString())
-
   const zoneTime = new ZonedDateTime(
     date.getFullYear(),
     date.getMonth() + 1, // Los meses en JavaScript son 0-indexados
@@ -60,8 +58,6 @@ export function parseDateToDateValue (date: Date): ZonedDateTime {
     date.getMilliseconds()
   )
 
-  console.log(zoneTime)
-
   return zoneTime
 }
 
@@ -70,7 +66,5 @@ export function DateValueToDate (date: DateValue): Date {
 }
 
 export function getNowDateValue (): DateValue {
-  console.log(now(getLocalTimeZone()))
-
   return now(getLocalTimeZone())
 }
