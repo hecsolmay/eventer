@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { CreateEventButton } from '@/components/events/buttons-client'
-import { EventCard } from '@/components/events/card'
+import { EventCard, EventUserCard } from '@/components/events/card'
 import {
   EmptyListOfEvents,
   EmptyListOfUserEvents
@@ -83,9 +83,7 @@ export async function ListOfUserEvents ({
         )}
       >
         {events.map(event => (
-          <Link key={event.id} href={`/events/${event.id}`}>
-            <EventCard event={event} />
-          </Link>
+          <EventUserCard key={event.id} event={event} />
         ))}
       </div>
       {!hidePagination && <Pagination info={info} />}

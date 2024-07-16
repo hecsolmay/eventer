@@ -1,4 +1,8 @@
+import Link from 'next/link'
+
 import { CalendarIcon, ClockIcon, MapPinIcon } from '../icons'
+
+import { DeleteEventButton, EditEventButton } from './buttons-client'
 
 import { EventType } from '@/types/events'
 import { cn } from '@/utils/cn'
@@ -10,7 +14,10 @@ function Card ({ className, ...props }: DivProps) {
   return (
     <div
       {...props}
-      className={cn('w-full max-w-sm rounded-lg border shadow-sm', className)}
+      className={cn(
+        'w-full md:max-w-sm rounded-lg border shadow-sm',
+        className
+      )}
     />
   )
 }
@@ -89,6 +96,37 @@ export function EventCard ({ event }: EventCardProps) {
       </CardHeader>
       <CardContent>
         <p className='line-clamp-4'>{description}</p>
+      </CardContent>
+    </Card>
+  )
+}
+
+export function EventUserCard ({ event }: EventCardProps) {
+  const { name, description, eventDate, lat, lng } = event
+
+  const localization = `${lat}, ${lng}`
+
+  return (
+    <Card>
+      <Link href={`/events/${event.id}`}>
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+          <EventDetail icon={CalendarIcon}>
+            {formatEventDate(eventDate)}
+          </EventDetail>
+          <EventDetail icon={ClockIcon}>
+            {formatEventTime(eventDate)}
+          </EventDetail>
+          <EventDetail icon={MapPinIcon}>{localization}</EventDetail>
+        </CardHeader>
+      </Link>
+      <CardContent className='flex h-44 flex-col gap-3 pb-2'>
+        <p className='line-clamp-4 flex-1'>{description}</p>
+
+        <div className='flex justify-end gap-2'>
+          <EditEventButton event={event} />
+          <DeleteEventButton event={event} />
+        </div>
       </CardContent>
     </Card>
   )

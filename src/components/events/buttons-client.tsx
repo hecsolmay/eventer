@@ -6,6 +6,8 @@ import { useState } from 'react'
 
 import { deleteUserFromEvent, registerUserToEvent } from '@/actions/events'
 import { CreateEventModal } from '@/components/events/modal'
+import { PencilIcon, TrashIcon } from '@/components/icons'
+import { EventType } from '@/types/events'
 
 interface RegisterEventButtonProps {
   eventId: string
@@ -63,5 +65,29 @@ export function CreateEventButton () {
       </Button>
       <CreateEventModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </>
+  )
+}
+
+interface EditEventButtonProps {
+  event: EventType
+}
+
+export function EditEventButton ({ event }: EditEventButtonProps) {
+  return (
+    <Button isIconOnly color='warning' title={`Editar ${event.name}`}>
+      <PencilIcon className='size-6 text-white' />
+    </Button>
+  )
+}
+
+interface DeleteEventButtonProps {
+  event: EventType
+}
+
+export function DeleteEventButton ({ event }: DeleteEventButtonProps) {
+  return (
+    <Button isIconOnly color='danger' title={`Eliminar ${event.name}`}>
+      <TrashIcon className='size-6 text-white' />
+    </Button>
   )
 }
