@@ -12,7 +12,6 @@ async function main () {
       description: 'Event Description',
       guests: ['Guest 1', 'Guest 2'],
       eventDate: new Date('2024-07-13'), // Asegúrate de pasar una fecha en formato ISO
-      eventTime: '6:00 PM', // Asegúrate de pasar una hora en formato ISO
       isFree: true,
       lat: 0,
       lng: 0,

@@ -18,7 +18,6 @@ export interface EventCreateDTO {
   description: string
   guests: string[]
   eventDate: Date
-  eventTime: string
   isFree: boolean
   lat: number
   lng: number

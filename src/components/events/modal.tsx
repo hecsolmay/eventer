@@ -76,7 +76,6 @@ function CommonEventModal ({
       const newEvent = {
         ...data,
         eventDate: DateValueToDate(dateValue),
-        eventTime: '12:00 PM',
         guests,
         lat: markerPosition.lat,
         lng: markerPosition.lng
