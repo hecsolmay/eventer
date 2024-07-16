@@ -11,6 +11,7 @@ import {
 
 interface StatusBadgeProps {
   status: EVENT_STATE
+  className?: string
 }
 
 const STATUS_TEXT: Record<EVENT_STATE, string> = {
@@ -34,14 +35,15 @@ const STATUS_COLORS: Record<EVENT_STATE, string> = {
   CONCLUDED: 'bg-green-500 dark:bg-green-600'
 }
 
-export function StatusBadge ({ status }: StatusBadgeProps) {
+export function StatusBadge ({ status, className }: StatusBadgeProps) {
   const Icon = STATUS_ICONS[status]
 
   return (
     <div
       className={cn(
         'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium text-primary-foreground',
-        STATUS_COLORS[status]
+        STATUS_COLORS[status],
+        className
       )}
     >
       <Icon className='size-4' />

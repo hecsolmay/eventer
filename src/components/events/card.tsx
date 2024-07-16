@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { CalendarIcon, ClockIcon, MapPinIcon } from '../icons'
 
 import { DeleteEventButton, EditEventButton } from './buttons-client'
+import { StatusBadge } from './state-badge'
 
 import { EventType } from '@/types/events'
 import { cn } from '@/utils/cn'
@@ -80,10 +81,11 @@ interface EventCardProps {
 }
 
 export function EventCard ({ event }: EventCardProps) {
-  const { name, description, eventDate,  localization } = event
+  const { name, description, eventDate, localization, state } = event
 
   return (
-    <Card>
+    <Card className='relative'>
+      <StatusBadge className='absolute right-2 top-40' status={state} />
       <CardHeader>
         <CardTitle>{name}</CardTitle>
         <EventDetail icon={CalendarIcon}>
@@ -100,10 +102,11 @@ export function EventCard ({ event }: EventCardProps) {
 }
 
 export function EventUserCard ({ event }: EventCardProps) {
-  const { name, description, eventDate, localization } = event
+  const { name, description, eventDate, localization, state } = event
 
   return (
-    <Card>
+    <Card className='relative'>
+      <StatusBadge className='absolute right-2 top-40' status={state} />
       <Link href={`/events/${event.id}`}>
         <CardHeader>
           <CardTitle>{name}</CardTitle>
