@@ -1,5 +1,6 @@
 import { Button } from '@nextui-org/button'
 import { Suspense } from 'react'
+import { Link } from '@nextui-org/link'
 
 import { RegisterEventButton } from './buttons-server'
 
@@ -20,6 +21,8 @@ export default function EventDetail ({ event }: EventDetailProps) {
     assistantsCount,
     guests,
     state,
+    lat,
+    lng,
     localization
   } = event
 
@@ -88,6 +91,19 @@ export default function EventDetail ({ event }: EventDetailProps) {
             <h2 className='text-2xl font-bold'>Detalles del evento</h2>
             <div className='mt-4 max-w-prose text-gray-600 dark:text-gray-200'>
               <p>{description}</p>
+
+              <div className='mt-6'>
+                <Button
+                  showAnchorIcon
+                  as={Link}
+                  color='primary'
+                  href={`https://www.google.com/maps?q=${lat},${lng}`}
+                  size='sm'
+                  target='_blank'
+                >
+                  Ver ubicación
+                </Button>
+              </div>
             </div>
           </div>
         </div>
