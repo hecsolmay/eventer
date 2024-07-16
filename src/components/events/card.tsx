@@ -2,7 +2,7 @@ import { CalendarIcon, ClockIcon, MapPinIcon } from '../icons'
 
 import { EventType } from '@/types/events'
 import { cn } from '@/utils/cn'
-import { formatEventDate } from '@/utils/time'
+import { formatEventDate, formatEventTime } from '@/utils/time'
 
 interface DivProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -63,7 +63,7 @@ function EventDetail ({
       className={cn('text-muted-foreground flex items-center gap-2', className)}
     >
       <Icon className={cn('size-5', iconClassName)} />
-      <span>{children}</span>
+      <span className='line-clamp-1'>{children}</span>
     </div>
   )
 }
@@ -73,7 +73,7 @@ interface EventCardProps {
 }
 
 export function EventCard ({ event }: EventCardProps) {
-  const { name, description, eventDate, eventTime, lat, lng } = event
+  const { name, description, eventDate, lat, lng } = event
 
   const localization = `${lat}, ${lng}`
 
@@ -84,7 +84,7 @@ export function EventCard ({ event }: EventCardProps) {
         <EventDetail icon={CalendarIcon}>
           {formatEventDate(eventDate)}
         </EventDetail>
-        <EventDetail icon={ClockIcon}>{eventTime}</EventDetail>
+        <EventDetail icon={ClockIcon}>{formatEventTime(eventDate)}</EventDetail>
         <EventDetail icon={MapPinIcon}>{localization}</EventDetail>
       </CardHeader>
       <CardContent>
