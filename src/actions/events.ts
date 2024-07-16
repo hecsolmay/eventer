@@ -8,7 +8,7 @@ import { EventsService } from '@/services/events'
 import { EventsUsersService } from '@/services/events-users'
 import { CreateEventSchema } from '@/schemas/events'
 
-type RegisterUserToEventResponse =
+type ActionResponse =
   | {
       success: true
     }
@@ -19,7 +19,7 @@ type RegisterUserToEventResponse =
 
 export async function registerUserToEvent (
   eventId: string
-): Promise<RegisterUserToEventResponse> {
+): Promise<ActionResponse> {
   try {
     const session = await getUserSession()
 
@@ -53,7 +53,7 @@ export async function registerUserToEvent (
 
 export async function deleteUserFromEvent (
   eventId: string
-): Promise<RegisterUserToEventResponse> {
+): Promise<ActionResponse> {
   try {
     const session = await getUserSession()
 
@@ -114,7 +114,7 @@ export async function getIsUserRegisteredToEvent (
 
 export async function createEvent (
   newEvent: Omit<CreateEventSchema, 'authorId'>
-): Promise<RegisterUserToEventResponse> {
+): Promise<ActionResponse> {
   try {
     const session = await getUserSession()
 
@@ -123,6 +123,33 @@ export async function createEvent (
     }
 
     await EventsService.createEvent({ ...newEvent, authorId: session.id })
+    revalidateTag('events')
+
+    return {
+      success: true
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error)
+
+    return {
+      success: false,
+      error: 'Algo salió mal'
+    }
+  }
+}
+
+export async function deleteEvent (eventId: string): Promise<ActionResponse> {
+  try {
+    const result = await EventsService.deleteEvent(eventId)
+
+    if (result === null) {
+      return {
+        success: false,
+        error: 'Evento no existe'
+      }
+    }
+
     revalidateTag('events')
 
     return {

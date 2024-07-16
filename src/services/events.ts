@@ -1,5 +1,3 @@
-import { EVENT_STATE } from '@prisma/client'
-
 import { createEventSchema, updateEventSchema } from '@/schemas/events'
 import {
   EventCreateDTO,
@@ -7,7 +5,10 @@ import {
   EventUpdateDTO
 } from '@/types/events'
 import { SchemaValidationError } from '@/utils/errors'
-import { getOrderByEventsFilter, getWhereEventsFilter } from '@/utils/filters/events'
+import {
+  getOrderByEventsFilter,
+  getWhereEventsFilter
+} from '@/utils/filters/events'
 import { formatPagination, getPaginationInfo } from '@/utils/pagination'
 import prisma from '@/utils/prisma'
 
@@ -91,12 +92,9 @@ export class EventsService {
       return null
     }
 
-    const deletedEvent = await prisma.events.update({
+    const deletedEvent = await prisma.events.delete({
       where: {
         id
-      },
-      data: {
-        state: EVENT_STATE.INACTIVE
       }
     })
 

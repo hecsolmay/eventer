@@ -3,9 +3,14 @@
 import { Button } from '@nextui-org/button'
 import { useDisclosure } from '@nextui-org/react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
-import { deleteUserFromEvent, registerUserToEvent } from '@/actions/events'
-import { CreateEventModal } from '@/components/events/modal'
+import {
+  deleteEvent,
+  deleteUserFromEvent,
+  registerUserToEvent
+} from '@/actions/events'
+import { AlertModal, CreateEventModal } from '@/components/events/modal'
 import { PencilIcon, TrashIcon } from '@/components/icons'
 import { EventType } from '@/types/events'
 
@@ -85,9 +90,51 @@ interface DeleteEventButtonProps {
 }
 
 export function DeleteEventButton ({ event }: DeleteEventButtonProps) {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleConfirm = async () => {
+    setIsSubmitting(true)
+    try {
+      const result = await deleteEvent(event.id)
+
+      if (!result.success) {
+        toast.error(result.error)
+
+        return
+      }
+
+      toast.success('Evento eliminado exitosamente')
+      onClose()
+    } catch (error) {
+      toast.error('Algo salió mal al eliminar el evento')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
-    <Button isIconOnly color='danger' title={`Eliminar ${event.name}`}>
-      <TrashIcon className='size-6 text-white' />
-    </Button>
+    <>
+      <AlertModal
+        buttonColor='danger'
+        confirmText='Eliminar'
+        description={
+          '¿Estás seguro de que quieres eliminar el evento, después de eliminar el evento no podrás acceder a él?'
+        }
+        isOpen={isOpen}
+        title='Eliminar evento'
+        onConfirm={handleConfirm}
+        onOpenChange={onOpenChange}
+      />
+      <Button
+        isIconOnly
+        color='danger'
+        isLoading={isSubmitting}
+        title={`Eliminar ${event.name}`}
+        onPress={onOpen}
+      >
+        <TrashIcon className='size-6 text-white' />
+      </Button>
+    </>
   )
 }

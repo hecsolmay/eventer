@@ -2,6 +2,7 @@
 
 import {
   Button,
+  ButtonProps,
   Checkbox,
   Input,
   Modal,
@@ -193,5 +194,64 @@ export function CreateEventModal ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
     />
+  )
+}
+
+interface AlertModalProps extends ModalProps {
+  title?: string
+  description?: string
+  cancelText?: string
+  confirmText?: string
+  onConfirm?: () => void | Promise<void>
+  onCancel?: () => void | undefined
+  buttonColor?: ButtonProps['color']
+}
+
+export function AlertModal ({
+  isOpen,
+  onOpenChange,
+  cancelText = 'Cancelar',
+  confirmText = 'Confirmar',
+  onConfirm = () => {},
+  onCancel = () => {},
+  title = 'Título de alerta',
+  description = 'Descripción de alerta',
+  buttonColor
+}: AlertModalProps) {
+  if (!isOpen) return null
+
+  return (
+    <Modal isOpen={isOpen} size='xl' onOpenChange={onOpenChange}>
+      <ModalContent>
+        {onClose => (
+          <>
+            <ModalHeader className='flex flex-col gap-1'>{title}</ModalHeader>
+            <ModalBody>
+              <p>{description}</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color='primary'
+                variant='light'
+                onPress={() => {
+                  onCancel()
+                  onClose()
+                }}
+              >
+                {cancelText}
+              </Button>
+              <Button
+                color={buttonColor}
+                onPress={async () => {
+                  await onConfirm()
+                }}
+              >
+                {confirmText}
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   )
 }
