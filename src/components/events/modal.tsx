@@ -205,6 +205,7 @@ interface AlertModalProps extends ModalProps {
   onConfirm?: () => void | Promise<void>
   onCancel?: () => void | undefined
   buttonColor?: ButtonProps['color']
+  isLoading?: boolean
 }
 
 export function AlertModal ({
@@ -216,7 +217,8 @@ export function AlertModal ({
   onCancel = () => {},
   title = 'Título de alerta',
   description = 'Descripción de alerta',
-  buttonColor
+  buttonColor,
+  isLoading = false
 }: AlertModalProps) {
   if (!isOpen) return null
 
@@ -242,7 +244,9 @@ export function AlertModal ({
               </Button>
               <Button
                 color={buttonColor}
+                isLoading={isLoading}
                 onPress={async () => {
+                  if (isLoading) return
                   await onConfirm()
                 }}
               >

@@ -121,6 +121,7 @@ export function DeleteEventButton ({ event }: DeleteEventButtonProps) {
         description={
           '¿Estás seguro de que quieres eliminar el evento, después de eliminar el evento no podrás acceder a él?'
         }
+        isLoading={isSubmitting}
         isOpen={isOpen}
         title='Eliminar evento'
         onConfirm={handleConfirm}
@@ -129,7 +130,6 @@ export function DeleteEventButton ({ event }: DeleteEventButtonProps) {
       <Button
         isIconOnly
         color='danger'
-        isLoading={isSubmitting}
         title={`Eliminar ${event.name}`}
         onPress={onOpen}
       >
