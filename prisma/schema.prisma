@@ -328,7 +328,6 @@ model Events {
   description     String
   guests          String[]
   eventDate       DateTime     @map("event_date") @db.Date
-  eventTime       String       @default("12:00 AM") @map("event_time")
   isFree          Boolean      @default(true) @map("is_free")
   lat             Float
   lng             Float
@@ -414,7 +413,7 @@ enum EVENT_STATE {
   ACTIVE
   INACTIVE
   CANCELED
-  CONCLUSED
+  CONCLUDED
 
   @@schema("public")
 }

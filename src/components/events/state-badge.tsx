@@ -17,21 +17,21 @@ const STATUS_TEXT: Record<EVENT_STATE, string> = {
   ACTIVE: 'Activo',
   INACTIVE: 'Inactivo',
   CANCELED: 'Cancelado',
-  CONCLUSED: 'Concluido'
+  CONCLUDED: 'Concluido'
 }
 
 const STATUS_ICONS: Record<EVENT_STATE, React.FC<IconSvgProps>> = {
   ACTIVE: CalendarCheckIcon,
   INACTIVE: PauseIcon,
   CANCELED: XMarkIcon,
-  CONCLUSED: CheckBadgeIcon
+  CONCLUDED: CheckBadgeIcon
 }
 
 const STATUS_COLORS: Record<EVENT_STATE, string> = {
   ACTIVE: 'bg-primary',
   INACTIVE: 'bg-amber-400 dark:bg-amber-500',
   CANCELED: 'bg-red-500 dark:bg-red-600',
-  CONCLUSED: 'bg-green-500 dark:bg-green-600'
+  CONCLUDED: 'bg-green-500 dark:bg-green-600'
 }
 
 export function StatusBadge ({ status }: StatusBadgeProps) {

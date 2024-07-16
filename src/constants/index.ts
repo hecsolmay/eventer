@@ -11,7 +11,7 @@ export const STATUS_FILTERS: StatusFilterSelect[] = [
   { value: 'ACTIVE', label: 'Activos' },
   { value: 'INACTIVE', label: 'Inactivos' },
   { value: 'CANCELED', label: 'Cancelados' },
-  { value: 'CONCLUSED', label: 'Concluidos' }
+  { value: 'CONCLUDED', label: 'Concluidos' }
 ]
 
 export const DEFAULT_LAT = 20.965943004395623
