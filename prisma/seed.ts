@@ -14,6 +14,7 @@ async function main () {
       eventDate: new Date('2024-07-13'), // Asegúrate de pasar una fecha en formato ISO
       isFree: true,
       lat: 0,
+      localization: 'Unavailable',
       lng: 0,
       state: 'ACTIVE',
       createdAt: new Date()
