@@ -327,7 +327,7 @@ model Events {
   name            String
   description     String
   guests          String[]
-  eventDate       DateTime     @map("event_date") @db.Date
+  eventDate       DateTime     @map("event_date") @db.Timestamptz(6)
   isFree          Boolean      @default(true) @map("is_free")
   lat             Float
   lng             Float
@@ -335,6 +335,7 @@ model Events {
   assistantsCount Int          @default(0) @map("assistends_count")
   createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
   authorId        String       @default(dbgenerated("gen_random_uuid()")) @map("author_id") @db.Uuid
+  localization    String
   users           Users        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   userEvents      UserEvents[]
 
