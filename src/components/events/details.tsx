@@ -149,7 +149,7 @@ function GestItem ({ gest }: GuestItemProps) {
         />
       </span>
       <div>
-        <p className='font-medium'>{gest}</p>
+        <p className='font-medium capitalize'>{gest}</p>
       </div>
     </div>
   )
