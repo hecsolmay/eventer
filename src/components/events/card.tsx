@@ -71,7 +71,7 @@ function EventDetail ({
       className={cn('text-muted-foreground flex items-center gap-2', className)}
     >
       <Icon className={cn('size-5', iconClassName)} />
-      <span className='line-clamp-1'>{children}</span>
+      <span className='line-clamp-1 flex-1'>{children}</span>
     </div>
   )
 }
