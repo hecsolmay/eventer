@@ -40,7 +40,7 @@ export default function EventDetail ({ event }: EventDetailProps) {
           <div className='flex items-center justify-start gap-4'>
             <span className='relative flex size-8 shrink-0 overflow-hidden rounded-full border'>
               <img
-                alt={`Foto de prefil de ${username}`}
+                alt={`Foto de perfil de ${username}`}
                 className='aspect-square size-full'
                 src={profileImage ?? '/assets/images/profile-placeholder.webp'}
               />
