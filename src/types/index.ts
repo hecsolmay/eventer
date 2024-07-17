@@ -48,3 +48,7 @@ export interface Cords {
   lat: number
   lng: number
 }
+
+export interface ApiServerContext {
+  params: Params
+}
