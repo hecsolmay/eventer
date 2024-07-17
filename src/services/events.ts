@@ -23,6 +23,9 @@ export class EventsService {
     const resultsPromise = prisma.events.findMany({
       skip,
       orderBy,
+      include: {
+        author: true
+      },
       take: limit,
       where
     })
@@ -46,6 +49,9 @@ export class EventsService {
     const event = await prisma.events.findUnique({
       where: {
         id
+      },
+      include: {
+        author: true
       }
     })
 
@@ -94,8 +100,10 @@ export class EventsService {
       throw new SchemaValidationError(result.error.toString())
     }
 
-    const isEmptyLocalization = event.lat === undefined || event.lng === undefined
-    const isSamePlace = event.lat === existedEvent.lat && event.lng === existedEvent.lng
+    const isEmptyLocalization =
+      event.lat === undefined || event.lng === undefined
+    const isSamePlace =
+      event.lat === existedEvent.lat && event.lng === existedEvent.lng
 
     if (!isEmptyLocalization && !isSamePlace) {
       const placeInfo = await PlaceInfoService.getPlaceInfo({

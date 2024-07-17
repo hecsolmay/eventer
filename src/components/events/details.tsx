@@ -23,8 +23,11 @@ export default function EventDetail ({ event }: EventDetailProps) {
     state,
     lat,
     lng,
-    localization
+    localization,
+    author
   } = event
+
+  const { username, profileImage } = author
 
   return (
     <div className='mx-auto max-w-6xl px-4 pb-8 pt-4 sm:px-6 lg:px-8'>
@@ -32,6 +35,20 @@ export default function EventDetail ({ event }: EventDetailProps) {
         <div className='space-y-6'>
           <div>
             <h1 className='text-3xl font-bold'>{name}</h1>
+          </div>
+
+          <div className='flex items-center justify-start gap-4'>
+            <span className='relative flex size-8 shrink-0 overflow-hidden rounded-full border'>
+              <img
+                alt={`Foto de prefil de ${username}`}
+                className='aspect-square size-full'
+                src={profileImage ?? '/assets/images/profile-placeholder.webp'}
+              />
+            </span>
+
+            <p>
+              <span className='font-bold'>Publicado por:</span> {username}{' '}
+            </p>
           </div>
 
           <div className='grid grid-cols-2 gap-4'>

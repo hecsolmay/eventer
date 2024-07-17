@@ -336,7 +336,7 @@ model Events {
   createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
   authorId        String       @default(dbgenerated("gen_random_uuid()")) @map("author_id") @db.Uuid
   localization    String
-  users           Users        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author          Users        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   userEvents      UserEvents[]
 
   @@map("events")
