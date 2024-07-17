@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@nextui-org/button'
-import { useDisclosure } from '@nextui-org/react'
+import { Tooltip, useDisclosure } from '@nextui-org/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -12,10 +12,11 @@ import {
 } from '@/actions/events'
 import {
   AlertModal,
+  AssistantsDetailsModal,
   CreateEventModal,
   EditEventModal
 } from '@/components/events/modal'
-import { PencilIcon, TrashIcon } from '@/components/icons'
+import { InfoIcon, PencilIcon, TrashIcon } from '@/components/icons'
 import { EventType } from '@/types/events'
 
 interface RegisterEventButtonProps {
@@ -153,6 +154,29 @@ export function DeleteEventButton ({ event }: DeleteEventButtonProps) {
       >
         <TrashIcon className='size-6 text-white' />
       </Button>
+    </>
+  )
+}
+
+interface InfoAssistantsButtonProps {
+  eventId: string
+}
+
+export function InfoAssistantsButton ({ eventId }: InfoAssistantsButtonProps) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+  return (
+    <>
+      <AssistantsDetailsModal
+        eventId={eventId}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+      <Tooltip content='Ver detalles de asistentes'>
+        <button onClick={onOpen}>
+          <InfoIcon className='size-5' />
+        </button>
+      </Tooltip>
     </>
   )
 }

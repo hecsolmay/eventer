@@ -1,9 +1,9 @@
 import { Button } from '@nextui-org/button'
-import { Suspense } from 'react'
 import { Link } from '@nextui-org/link'
+import { Suspense } from 'react'
 
-import { RegisterEventButton } from './buttons-server'
-
+import { InfoAssistantsButton } from '@/components/events/buttons-client'
+import { RegisterEventButton } from '@/components/events/buttons-server'
 import { StatusBadge } from '@/components/events/state-badge'
 import { EventType } from '@/types/events'
 import { formatEventDate, formatEventTime } from '@/utils/time'
@@ -85,6 +85,10 @@ export default function EventDetail ({ event }: EventDetailProps) {
               <span className='text-gray-600 dark:text-gray-200'>
                 {`${assistantsCount} asistentes`}
               </span>
+
+              { assistantsCount > 0 && (
+                <InfoAssistantsButton eventId={event.id} />
+              )}
             </div>
           </DetailSection>
 

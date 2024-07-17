@@ -1,7 +1,10 @@
 import Link from 'next/link'
 
 import { CreateEventButton } from '@/components/events/buttons-client'
-import { EventCard, EventUserCard } from '@/components/events/card'
+import {
+  EventCard,
+  EventUserCard
+} from '@/components/events/card'
 import {
   EmptyListOfEvents,
   EmptyListOfUserEvents

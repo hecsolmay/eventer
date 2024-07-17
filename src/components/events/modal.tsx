@@ -19,12 +19,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import SelectStatus from '../select-status'
+import { ListOfAssistantsEvent } from './list-client'
 
 import { createEvent, updateEventById } from '@/actions/events'
 import { DateInputWithHours } from '@/components/date-picker'
 import InputGuests from '@/components/input-guests'
 import { LeafletMap } from '@/components/map'
+import SelectStatus from '@/components/select-status'
 import { DEFAULT_LAT, DEFAULT_LNG } from '@/constants'
 import { createEventFormSchema, CreateEventFormSchema } from '@/schemas/events'
 import { Cords } from '@/types'
@@ -353,6 +354,51 @@ export function AlertModal ({
                 }}
               >
                 {confirmText}
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+  )
+}
+
+interface AssistantsDetailsModalProps extends ModalProps {
+  eventId: string
+}
+
+export function AssistantsDetailsModal ({
+  isOpen,
+  onOpenChange,
+  eventId
+}: AssistantsDetailsModalProps) {
+  if (!isOpen) return null
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      placement='center'
+      scrollBehavior='inside'
+      onOpenChange={onOpenChange}
+    >
+      <ModalContent>
+        {onClose => (
+          <>
+            <ModalHeader className='flex flex-col gap-1'>
+              Detalles de asistentes
+            </ModalHeader>
+            <ModalBody className='scroll-small'>
+              <ListOfAssistantsEvent eventId={eventId} />
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color='primary'
+                variant='light'
+                onPress={() => {
+                  onClose()
+                }}
+              >
+                Cerrar
               </Button>
             </ModalFooter>
           </>

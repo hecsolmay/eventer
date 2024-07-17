@@ -52,3 +52,10 @@ export interface Cords {
 export interface ApiServerContext {
   params: Params
 }
+
+export interface AssistantType {
+  id: string
+  username: string
+  email: string
+  profileImage: string | null
+}

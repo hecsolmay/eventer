@@ -29,4 +29,17 @@ export class EventsUsersService {
 
     return eventUser !== null
   }
+
+  static async getEventUsers (eventId: string) {
+    const eventUsers = await prisma.userEvents.findMany({
+      include: {
+        users: true
+      },
+      where: {
+        eventId
+      }
+    })
+
+    return eventUsers.map(eventUser => eventUser.users)
+  }
 }

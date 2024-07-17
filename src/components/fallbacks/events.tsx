@@ -25,3 +25,13 @@ export function EmptyListOfUserEvents () {
     </div>
   )
 }
+
+export function EmptyListOfAssistantsEvent () {
+  return (
+    <div className='flex flex-col items-center justify-center gap-y-4 py-16'>
+      <h1 className='text-center text-2xl font-bold'>
+        Este evento no tiene asistentes registrados
+      </h1>
+    </div>
+  )
+}

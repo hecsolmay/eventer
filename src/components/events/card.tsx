@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
-import { CalendarIcon, ClockIcon, MapPinIcon } from '../icons'
-
 import { DeleteEventButton, EditEventButton } from './buttons-client'
 import { StatusBadge } from './state-badge'
 
+import { CalendarIcon, ClockIcon, MapPinIcon } from '@/components/icons'
+import { AssistantType } from '@/types'
 import { EventType } from '@/types/events'
 import { cn } from '@/utils/cn'
 import { formatEventDate, formatEventTime } from '@/utils/time'
@@ -128,5 +128,27 @@ export function EventUserCard ({ event }: EventCardProps) {
         </div>
       </CardContent>
     </Card>
+  )
+}
+
+interface EventAssistantCardProps {
+  user: AssistantType
+}
+
+export function EventAssistantCard ({ user }: EventAssistantCardProps) {
+  const { username, profileImage } = user
+
+  return (
+    <div className='flex items-center justify-start gap-4'>
+      <span className='relative flex size-8 shrink-0 overflow-hidden rounded-full border'>
+        <img
+          alt={`Foto de perfil de ${username}`}
+          className='aspect-square size-full'
+          src={profileImage ?? '/assets/images/profile-placeholder.webp'}
+        />
+      </span>
+
+      <p>{username}</p>
+    </div>
   )
 }
