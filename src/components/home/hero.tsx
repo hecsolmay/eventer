@@ -1,5 +1,6 @@
 import { Button } from '@nextui-org/button'
 import { Link } from '@nextui-org/link'
+import Image from 'next/image'
 
 export default function Hero () {
   return (
@@ -30,7 +31,7 @@ export default function Hero () {
               </Button>
             </div>
           </div>
-          <img
+          <Image
             alt='Hero'
             className='mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last'
             height='310'
