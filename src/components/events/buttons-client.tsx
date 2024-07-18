@@ -83,7 +83,7 @@ interface EditEventButtonProps {
 }
 
 export function EditEventButton ({ event }: EditEventButtonProps) {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   return (
     <>
