@@ -7,6 +7,8 @@ import { getSortFilter, getStatusFilter } from '.'
 import { EventsFilterParams } from '@/types/events'
 import { SearchParams, SearchParamsPrivate } from '@/types'
 
+const ONE_DAY_TIME = 24 * 60 * 60 * 1000
+
 export function getWhereEventsFilter (
   query?: EventsFilterParams
 ): Prisma.EventsWhereInput {
@@ -17,8 +19,14 @@ export function getWhereEventsFilter (
   }
 
   if (query?.eventDate !== undefined) {
+    const currentDatefilter = query.eventDate
+    const onDayAfterFilter = new Date(
+      currentDatefilter.getTime() + ONE_DAY_TIME
+    )
+
     where.eventDate = {
-      gte: query.eventDate
+      gte: currentDatefilter,
+      lt: onDayAfterFilter
     }
   }
 
@@ -56,7 +64,6 @@ export function getOrderByEventsFilter (
     if (sort === 'eventdata-desc') {
       orderBy.eventDate = 'desc'
     }
-
   }
 
   return orderBy
