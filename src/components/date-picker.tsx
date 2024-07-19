@@ -4,14 +4,19 @@ import { DateValue } from '@internationalized/date'
 import { DatePicker } from '@nextui-org/react'
 import { useState } from 'react'
 
+import { XMarkIcon } from './icons'
+
 import useQuery from '@/hooks/useQuery'
-import {
-  DateValueToDate,
-  getParsedDateValue
-} from '@/utils/time'
+import { DateValueToDate, getParsedDateValue } from '@/utils/time'
 
 export default function DateFilter () {
-  const { createQueryString, router, searchParams, pathname } = useQuery()
+  const {
+    createQueryString,
+    router,
+    searchParams,
+    pathname,
+    removeQueryString
+  } = useQuery()
   const [value, setValue] = useState<DateValue | null>(() => {
     const date = searchParams.get('date')
 
@@ -28,13 +33,26 @@ export default function DateFilter () {
     router.push(pathname + '?' + createQueryString('date', formattedDate))
   }
 
+  const handleClear = () => {
+    setValue(null)
+    router.push(pathname + '?' + removeQueryString('date'))
+  }
+
   return (
-    <div className='w-full max-w-[284px]'>
+    <div className='relative w-full max-w-[284px]'>
+      {value !== null && (
+        <button
+          className='absolute bottom-1 right-9 z-10 pb-[2px] text-default-500'
+          onClick={handleClear}
+        >
+          <XMarkIcon className='size-5' />
+        </button>
+      )}
       <DatePicker
         hideTimeZone
         showMonthAndYearPickers
         className='h-12'
-        label='Eventos a partir de:'
+        label='Eventos de la fecha:'
         value={value}
         variant='bordered'
         onChange={handleChange}
@@ -48,8 +66,10 @@ interface DateInputWithHoursProps {
   value: DateValue
 }
 
-export function DateInputWithHours ( { onChange, value }: DateInputWithHoursProps ) {
-
+export function DateInputWithHours ({
+  onChange,
+  value
+}: DateInputWithHoursProps) {
   return (
     <div className='flex w-full flex-row gap-4'>
       <DatePicker
