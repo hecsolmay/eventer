@@ -3,11 +3,13 @@
 import { DateValue } from '@internationalized/date'
 import { DatePicker } from '@nextui-org/react'
 import { useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 
-import { XMarkIcon } from './icons'
-
+import { XMarkIcon } from '@/components/icons'
 import useQuery from '@/hooks/useQuery'
 import { DateValueToDate, getParsedDateValue } from '@/utils/time'
+
+const WAIT_TIME = 200
 
 export default function DateFilter () {
   const {
@@ -26,12 +28,26 @@ export default function DateFilter () {
   })
 
   const handleChange = (date: DateValue) => {
-    setValue(date)
-    const newDate = DateValueToDate(date)
-    const formattedDate = newDate.toISOString().split('T')[0]
-
-    router.push(pathname + '?' + createQueryString('date', formattedDate))
+    try {
+      setValue(date)
+      filterByDate(date)
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+    }
   }
+
+  const filterByDate = useDebouncedCallback((date: DateValue) => {
+    try {
+      const newDate = DateValueToDate(date)
+      const formattedDate = newDate.toISOString().split('T')[0]
+
+      router.push(pathname + '?' + createQueryString('date', formattedDate))
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error)
+    }
+  }, WAIT_TIME)
 
   const handleClear = () => {
     setValue(null)
