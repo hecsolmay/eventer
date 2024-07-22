@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { CreateEventButton } from '@/components/events/buttons-client'
 import {
   EventCard,
-  EventUserCard
+  EventUserCard,
+  UserRegisteredCard
 } from '@/components/events/card'
 import {
   EmptyListOfEvents,
+  EmptyListOfRegisteredEvents,
   EmptyListOfUserEvents
 } from '@/components/fallbacks/events'
 import Pagination from '@/components/pagination'
@@ -93,3 +95,42 @@ export async function ListOfUserEvents ({
     </>
   )
 }
+
+interface ListOfUserRegisteredEventsProps extends ListOfEventsProps {
+  userId: string
+}
+
+export async function ListOfUserRegisteredEvents ({
+  hidePagination = false,
+  className,
+  searchParams,
+  userId,
+  ...props
+}: ListOfUserRegisteredEventsProps) {
+  const params: EventsFilterParams =
+    searchParamsPrivateToEventsFilter(searchParams)
+
+  const { events, info } = await EventsService.getEvents(params)
+
+  if (events.length === 0) {
+    return <EmptyListOfRegisteredEvents />
+  }
+
+  return (
+    <>
+      <div
+        {...props}
+        className={cn(
+          'grid grid-cols-[repeat(auto-fill,minmax(305px,1fr))] gap-x-4 gap-y-8 xl:grid-cols-4',
+          className
+        )}
+      >
+        {events.map(event => (
+          <UserRegisteredCard key={event.id} event={event} userId={userId} />
+        ))}
+      </div>
+      {!hidePagination && <Pagination info={info} />}
+    </>
+  )
+}
+

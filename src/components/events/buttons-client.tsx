@@ -18,6 +18,7 @@ import {
 } from '@/components/events/modal'
 import { InfoIcon, PencilIcon, TrashIcon } from '@/components/icons'
 import { EventType } from '@/types/events'
+import { removeAssistantFromEvent } from '@/actions/assistants'
 
 interface RegisterEventButtonProps {
   eventId: string
@@ -177,6 +178,65 @@ export function InfoAssistantsButton ({ eventId }: InfoAssistantsButtonProps) {
           <InfoIcon className='size-5' />
         </button>
       </Tooltip>
+    </>
+  )
+}
+
+interface UnRegisterEventButtonProps {
+  eventId: string
+  userId: string
+}
+
+export function UnRegisterEventButton ({
+  eventId,
+  userId
+}: UnRegisterEventButtonProps) {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleConfirm = async () => {
+    if (isSubmitting) return
+
+    setIsSubmitting(true)
+    try {
+      const result = await removeAssistantFromEvent(eventId, userId)
+
+      if (!result.success) {
+        toast.error('Algo salió mal al quitarte del evento')
+
+        return
+      }
+
+      toast.success('Registro eliminado exitosamente')
+      onClose()
+    } catch (error) {
+      toast.error('Algo salió mal al quitarte del evento')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const text = 'Quitar del evento'
+
+  return (
+    <>
+      <AlertModal
+        buttonColor='danger'
+        confirmText='Quitar del evento'
+        description={'¿Estás seguro de quitar tu registro al evento?'}
+        isLoading={isSubmitting}
+        isOpen={isOpen}
+        title='Quitar del evento'
+        onConfirm={handleConfirm}
+        onOpenChange={onOpenChange}
+      />
+      <Button
+        className='w-full sm:w-auto'
+        color='secondary'
+        onPress={onOpen}
+      >
+        {text}
+      </Button>
     </>
   )
 }

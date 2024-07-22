@@ -11,6 +11,7 @@ export interface EventsFilterParams {
   status?: EVENT_STATE
   sort?: SortFilter
   authorId?: string
+  userId?: string
 }
 
 export interface EventCreateDTO {

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { DeleteEventButton, EditEventButton } from './buttons-client'
+import { DeleteEventButton, EditEventButton, UnRegisterEventButton } from './buttons-client'
 import { StatusBadge } from './state-badge'
 
 import { CalendarIcon, ClockIcon, MapPinIcon } from '@/components/icons'
@@ -150,5 +150,37 @@ export function EventAssistantCard ({ user }: EventAssistantCardProps) {
 
       <p>{username}</p>
     </div>
+  )
+}
+
+interface UserRegisteredCardProps extends EventCardProps{
+  userId: string
+}
+export function UserRegisteredCard ({ event, userId }: UserRegisteredCardProps) {
+  const { name, description, eventDate, localization, state } = event
+
+  return (
+    <Card className='relative'>
+      <StatusBadge className='absolute right-2 top-40' status={state} />
+      <Link href={`/events/${event.id}`}>
+        <CardHeader>
+          <CardTitle>{name}</CardTitle>
+          <EventDetail icon={CalendarIcon}>
+            {formatEventDate(eventDate)}
+          </EventDetail>
+          <EventDetail icon={ClockIcon}>
+            {formatEventTime(eventDate)}
+          </EventDetail>
+          <EventDetail icon={MapPinIcon}>{localization}</EventDetail>
+        </CardHeader>
+      </Link>
+      <CardContent className='flex h-44 flex-col gap-3 pb-2'>
+        <p className='line-clamp-4 flex-1'>{description}</p>
+
+        <div className='flex justify-end gap-2'>
+          <UnRegisterEventButton eventId={event.id} userId={userId} />
+        </div>
+      </CardContent>
+    </Card>
   )
 }

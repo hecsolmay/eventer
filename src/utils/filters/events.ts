@@ -38,6 +38,10 @@ export function getWhereEventsFilter (
     where.authorId = { equals: query.authorId }
   }
 
+  if (query?.userId !== undefined) {
+    where.userEvents = { some: { userId: query.userId } }
+  }
+
   return where
 }
 
@@ -108,6 +112,10 @@ export function searchParamsPrivateToEventsFilter (
 
   if (searchParams?.authorId !== undefined) {
     params.authorId = searchParams.authorId
+  }
+
+  if (searchParams?.userId !== undefined) {
+    params.userId = searchParams.userId
   }
 
   return params

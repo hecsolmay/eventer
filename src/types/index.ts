@@ -17,6 +17,7 @@ export interface SearchParams {
 
 export interface SearchParamsPrivate extends SearchParams {
   authorId?: string
+  userId?: string
 }
 
 export interface Params {

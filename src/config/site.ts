@@ -6,12 +6,14 @@ export const siteConfig = {
   navItems: [
     {label: 'Inicio', href: '/'},
     {label: 'Eventos', href: '/events'},
-    {label: 'Mis eventos', href: '/my-events'}
+    {label: 'Mis eventos', href: '/my-events'},
+    {label: 'Eventos registrados', href: '/registered-events'}
   ],
   navMenuItems: [
     {label: 'Inicio', href: '/'},
     {label: 'Eventos', href: '/events'},
-    {label: 'Mis eventos', href: '/my-events'}
+    {label: 'Mis eventos', href: '/my-events'},
+    {label: 'Eventos registrados', href: '/registered-events'}
   ],
   links: {
     github: 'https://github.com/hecsolmay/eventer'
