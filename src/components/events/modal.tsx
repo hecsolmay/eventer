@@ -51,6 +51,7 @@ interface DefaultValues {
   isFree: boolean
   guests: string[]
   eventId?: string
+  localization?: string
 }
 
 const INITIAL_DEFAULT_VALUES: DefaultValues = {
@@ -61,7 +62,8 @@ const INITIAL_DEFAULT_VALUES: DefaultValues = {
   name: '',
   description: '',
   isFree: false,
-  guests: []
+  guests: [],
+  localization: undefined
 }
 
 interface CommonEventModalProps extends ModalProps {
@@ -220,6 +222,7 @@ function CommonEventModal ({
                   changeMarkerPosition={setMarkerPosition}
                   lat={markerPosition.lat}
                   lng={markerPosition.lng}
+                  location={defaultValues.localization}
                 />
 
                 <Checkbox {...register('isFree')} defaultSelected>
@@ -292,7 +295,8 @@ export function EditEventModal ({
         lng: event.lng,
         name: event.name,
         state: event.state,
-        eventId: event.id
+        eventId: event.id,
+        localization: event.localization
       }}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
