@@ -30,6 +30,7 @@ export default function SearchInput ( { closeMenu }: SearchInputProps ) {
     <form onSubmit={handleSubmit}>
       <Input
         aria-label='Search'
+        autoComplete='off'
         classNames={{
           inputWrapper: 'bg-default-100',
           input: 'text-sm'
