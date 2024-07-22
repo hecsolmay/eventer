@@ -17,3 +17,4 @@ export interface PlaceInfoErro {
 }
 
 export type PlaceInfoResponse = PlaceInfo | PlaceInfoErro
+export type SearchPlacesInfoResponse  = PlaceInfo[] | PlaceInfoErro
