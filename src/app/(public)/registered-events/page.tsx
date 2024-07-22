@@ -18,7 +18,7 @@ export default async function RegisteredEventsPage ({
 
   return (
     <section className='p-4 md:px-6'>
-      <h2 className='text-2xl font-bold'>Mis eventos</h2>
+      <h2 className='text-2xl font-bold'>Eventos a los que estoy registrado</h2>
 
       <Suspense fallback={null}>
         <EventFilters />
