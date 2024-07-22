@@ -95,6 +95,8 @@
     "quotes": ["error", "single"],
     "space-before-function-paren": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "no-trailing-spaces": "error"
+    "no-trailing-spaces": "error",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
   }
 }
