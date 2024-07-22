@@ -1,10 +1,8 @@
 import { SortFilterSelect, StatusFilterSelect } from '@/types'
 
 export const SORTS: SortFilterSelect[] = [
-  { value: 'created-asc', label: 'Más antiguos' },
-  { value: 'created-desc', label: 'Últimos creados' },
-  { value: 'eventdata-asc', label: 'Eventos mas lejanos' },
-  { value: 'eventdata-desc', label: 'Próximos eventos' }
+  { value: 'event-desc', label: 'Próximos eventos' },
+  { value: 'event-asc', label: 'Eventos mas antiguos' }
 ]
 
 export const STATUS_FILTERS: StatusFilterSelect[] = [

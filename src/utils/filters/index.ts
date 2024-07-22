@@ -1,11 +1,11 @@
 import { SORTS, STATUS_FILTERS } from '@/constants'
 
 export function getSortFilterSelect (sortKey?: string | null) {
-  return SORTS.find(sort => sort.value === sortKey)
+  return SORTS.find(sort => sort.value === sortKey) ?? SORTS[0]
 }
 
 export function getSortFilter (sortKey?: string | null) {
-  return SORTS.find(sort => sort.value === sortKey)?.value
+  return SORTS.find(sort => sort.value === sortKey)?.value ?? SORTS[0].value
 }
 
 export function getStatusFilterSelect (statusKey?: string | null) {

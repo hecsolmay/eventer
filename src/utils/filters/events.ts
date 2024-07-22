@@ -46,22 +46,16 @@ export function getOrderByEventsFilter (
 ): Prisma.EventsOrderByWithRelationInput {
   const orderBy: Prisma.EventsOrderByWithRelationInput | undefined = {}
 
+  orderBy.eventDate = 'desc'
+
   if (params?.sort !== undefined) {
     const sort = params.sort
 
-    if (sort === 'created-asc') {
-      orderBy.createdAt = 'asc'
-    }
-
-    if (sort === 'created-desc') {
-      orderBy.createdAt = 'desc'
-    }
-
-    if (sort === 'eventdata-asc') {
+    if (sort === 'event-asc') {
       orderBy.eventDate = 'asc'
     }
 
-    if (sort === 'eventdata-desc') {
+    if (sort === 'event-desc') {
       orderBy.eventDate = 'desc'
     }
   }

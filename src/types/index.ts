@@ -29,10 +29,8 @@ export interface ServerPageProps {
 }
 
 export type SortFilter =
-  | 'created-asc'
-  | 'created-desc'
-  | 'eventdata-asc'
-  | 'eventdata-desc'
+  | 'event-asc'
+  | 'event-desc'
 
 export interface SortFilterSelect {
   value: SortFilter
