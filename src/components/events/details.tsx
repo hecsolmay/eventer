@@ -34,7 +34,7 @@ export default function EventDetail ({ event }: EventDetailProps) {
   const isValidDate = currentDate.getTime() < eventDate.getTime()
 
   const isValidStatus = state === 'ACTIVE'
-  
+
   return (
     <div className='mx-auto max-w-6xl px-4 pb-8 pt-4 sm:px-6 lg:px-8'>
       <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
@@ -98,7 +98,7 @@ export default function EventDetail ({ event }: EventDetailProps) {
             </div>
           </DetailSection>
 
-          {isValidDate && isValidStatus && 
+          {isValidDate && isValidStatus &&
             <Suspense fallback={<ButtonFallback />}>
               <RegisterEventButton eventId={event.id} />
             </Suspense>
