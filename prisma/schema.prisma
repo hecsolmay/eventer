@@ -362,7 +362,7 @@ model Users {
 model UserEvents {
   userId  String @map("user_id") @db.Uuid
   eventId String @default(dbgenerated("gen_random_uuid()")) @map("event_id") @db.Uuid
-  events  Events @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  events  Events @relation(fields: [eventId], references: [id], onDelete: Cascade)
   users   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, eventId])
