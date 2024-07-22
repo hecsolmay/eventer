@@ -33,7 +33,7 @@ export const Navbar = () => {
     >
       <NavbarContent className='basis-1/5 sm:basis-full' justify='start'>
         <NavbarBrand as='li' className='max-w-fit gap-3'>
-          <NextLink className='flex items-center justify-start gap-1' href='/'>
+          <NextLink className='flex items-center justify-start gap-1' href='/' onClick={closeMenu}>
             <Logo />
             <p className='font-bold text-inherit'>EVENTER</p>
           </NextLink>
@@ -52,8 +52,8 @@ export const Navbar = () => {
         <SearchInput closeMenu={closeMenu} />
         <div className='mx-4 mt-2 flex flex-col gap-2'>
           {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`} onClick={closeMenu}>
-              <Link color='foreground' href={item.href} size='lg'>
+            <NavbarMenuItem key={`${item}-${index}`} >
+              <Link color='foreground' href={item.href} size='lg' onClick={closeMenu}>
                 {item.label}
               </Link>
             </NavbarMenuItem>
